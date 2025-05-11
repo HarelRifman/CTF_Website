@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CTF Challenge Platform</title>
+    <style>
+        :root {
+            --primary: #4a6da7;
+            --secondary: #3e5b8a;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --bg: #f0f2f5;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: var(--dark);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--dark);
+            color: white;
+            padding: 15px 0;
+            border-radius: 5px 5px 0 0;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            padding: 0 20px;
+            font-size: 24px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background-color: var(--secondary);
+            color: white;
+            padding: 10px 15px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header .badge {
+            background-color: var(--primary);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: normal;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .input-group {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        input, button, select, textarea {
+            font-family: inherit;
+            font-size: 14px;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input, textarea {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--secondary);
+        }
+
+        button.btn-success {
+            background-color: var(--success);
+        }
+
+        button.btn-success:hover {
+            background-color: #218838;
+        }
+
+        button.btn-danger {
+            background-color: var(--danger);
+        }
+
+        button.btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        button.btn-warning {
+            background-color: var(--warning);
+            color: var(--dark);
+        }
+
+        button.btn-warning:hover {
+            background-color: #e0a800;
+        }
+
+        .help-text {
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .challenge-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .challenge-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            background-color: white;
+            transition: transform 0.2s;
+        }
+
+        .challenge-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .challenge-header {
+            padding: 10px 15px;
+            background-color: var(--secondary);
+            color: white;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .challenge-body {
+            padding: 15px;
+        }
+
+        .challenge-footer {
+            padding: 10px 15px;
+            background-color: var(--light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #ddd;
+        }
+
+        .badge-category {
+            background-color: var(--info);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        .badge-difficulty {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: white;
+        }
+
+        .badge-difficulty.easy {
+            background-color: var(--success);
+        }
+
+        .badge-difficulty.medium {
+            background-color: var(--warning);
+            color: var(--dark);
+        }
+
+        .badge-difficulty.hard {
+            background-color: var(--danger);
+        }
+
+        .badge-points {
+            background-color: var(--dark);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        .challenge-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .solved-indicator {
+            background-color: var(--success);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab-item:hover {
+            background-color: var(--light);
+        }
+
+        .tab-item.active {
+            border-bottom-color: var(--primary);
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .scoreboard {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .scoreboard th,
+        .scoreboard td {
+            padding: 8px 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .scoreboard th {
+            background-color: var(--light);
+            font-weight: bold;
+        }
+
+        .scoreboard tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .scoreboard .user-me {
+            background-color: rgba(74, 109, 167, 0.1);
+            font-weight: bold;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .input-group {
+                flex-direction: column;
+            }
+
+            input {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .challenge-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CTF Challenge Platform</h1>
+        </header>
+
+        <div class="card">
+            <div class="card-header">Connection Status</div>
+            <div class="card-body">
+                <div id="connection-status">Connecting to server...</div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab-item active" data-tab="challenges">Challenges</div>
+            <div class="tab-item" data-tab="scoreboard">Scoreboard</div>
+        </div>
+
+        <div id="challenges-tab" class="tab-content active">
+            <div class="card">
+                <div class="card-header">Available Challenges</div>
+                <div class="card-body">
+                    <div class="help-text">Select a challenge to view details and download files.</div>
+                    <div id="challenge-list" class="challenge-list">
+                        <!-- Challenges will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">Challenge Details</div>
+                <div class="card-body">
+                    <div id="challenge-details">
+                        <p class="help-text">Select a challenge to view its details and submit flags.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="scoreboard-tab" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    Scoreboard
+                    <button id="btn-refresh-scoreboard">Refresh</button>
+                </div>
+                <div class="card-body">
+                    <table class="scoreboard">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Score</th>
+                                <th>Solved</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scoreboard-body">
+                            <!-- Scoreboard will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let clientId = null;
+        let pollInterval = null;
+        let currentChallenge = null;
+
+        // Get the username passed from the server
+        const username = {{ username | tojson | safe }};
+
+        // DOM elements
+        const connectionStatus = document.getElementById('connection-status');
+        const challengeList = document.getElementById('challenge-list');
+        const challengeDetails = document.getElementById('challenge-details');
+        const scoreboardBody = document.getElementById('scoreboard-body');
+
+        // Set up tabs
+        document.querySelectorAll('.tab-item').forEach(tabItem => {
+            tabItem.addEventListener('click', () => {
+                document.querySelectorAll('.tab-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+
+                tabItem.classList.add('active');
+                const tabId = tabItem.getAttribute('data-tab');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+        });
+
+        // Connect to server automatically
+        async function connectToServer() {
+            try {
+                const response = await fetch('/api/connect', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username: username })
+                });
+
+                const data = await response.json();
+                if (data.client_id) {
+                    clientId = data.client_id;
+                    connectionStatus.textContent = 'Connected as: ' + username;
+                    connectionStatus.style.color = '#28a745';
+
+                    // Start polling for messages
+                    startPolling();
+
+                    // Load challenges and scoreboard
+                    loadChallenges();
+                    loadScoreboard();
+                }
+            } catch (error) {
+                connectionStatus.textContent = 'Connection failed: ' + error.message;
+                connectionStatus.style.color = '#dc3545';
+
+                // Try to reconnect after 5 seconds
+                setTimeout(connectToServer, 5000);
+            }
+        }
+
+        // Load available challenges
+        async function loadChallenges() {
+            try {
+                const response = await fetch('/api/challenges?client_id=' + clientId);
+                const data = await response.json();
+
+                if (data.challenges) {
+                    challengeList.innerHTML = '';
+
+                    data.challenges.forEach(challenge => {
+                        const card = document.createElement('div');
+                        card.className = 'challenge-card';
+                        card.innerHTML = `
+                            <div class="challenge-header">
+                                ${challenge.name}
+                                <span class="badge-points">${challenge.points} pts</span>
+                            </div>
+                            <div class="challenge-body">
+                                <div>
+                                    <span class="badge-category">${challenge.category}</span>
+                                    <span class="badge-difficulty ${challenge.difficulty.toLowerCase()}">${challenge.difficulty}</span>
+                                    ${challenge.solved ? '<div class="solved-indicator">Solved</div>' : ''}
+                                </div>
+                                <div class="challenge-actions">
+                                    <button class="btn-view-challenge" data-id="${challenge.id}">View Challenge</button>
+                                </div>
+                            </div>
+                        `;
+
+                        challengeList.appendChild(card);
+                    });
+
+                    // Add event listeners to challenge buttons
+                    document.querySelectorAll('.btn-view-challenge').forEach(button => {
+                        button.addEventListener('click', () => {
+                            const challengeId = button.getAttribute('data-id');
+                            loadChallengeDetails(challengeId);
+                        });
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading challenges:', error);
+            }
+        }
+
+        // Load challenge details
+        async function loadChallengeDetails(challengeId) {
+            try {
+                const response = await fetch(`/api/challenge/${challengeId}?client_id=${clientId}`);
+                const data = await response.json();
+
+                if (data.challenge) {
+                    currentChallenge = data.challenge;
+                    const challenge = data.challenge;
+
+                    challengeDetails.innerHTML = `
+                        <h3>${challenge.name}</h3>
+                        <div>
+                            <span class="badge-category">${challenge.category}</span>
+                            <span class="badge-difficulty ${challenge.difficulty.toLowerCase()}">${challenge.difficulty}</span>
+                            <span class="badge-points">${challenge.points} pts</span>
+                            ${challenge.solved ? '<div class="solved-indicator">Solved</div>' : ''}
+                        </div>
+                        <p>${challenge.description}</p>
+                        <div class="challenge-actions">
+                            <button id="btn-download-challenge" class="btn-success">Download Challenge</button>
+                            <button id="btn-hint" class="btn-warning">Get Hint</button>
+                        </div>
+                        ${challenge.solved ? '' : `
+                            <div class="input-group" style="margin-top: 15px;">
+                                <input type="text" id="flag-input" placeholder="Enter flag (e.g., CTF{flag_here})">
+                                <button id="btn-submit-flag" class="btn-success">Submit Flag</button>
+                            </div>
+                        `}
+                    `;
+
+                    // Add event listeners
+                    document.getElementById('btn-download-challenge').addEventListener('click', () => {
+                        downloadChallenge(challenge.id);
+                    });
+
+                    document.getElementById('btn-hint').addEventListener('click', () => {
+                        showHint(challenge.id);
+                    });
+
+                    if (!challenge.solved) {
+                        document.getElementById('btn-submit-flag').addEventListener('click', () => {
+                            submitFlag();
+                        });
+
+                        document.getElementById('flag-input').addEventListener('keypress', (e) => {
+                            if (e.key === 'Enter') {
+                                submitFlag();
+                            }
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading challenge details:', error);
+            }
+        }
+
+        // Download challenge file
+        function downloadChallenge(challengeId) {
+            if (!clientId) {
+                return;
+            }
+
+            window.location.href = `/api/challenge/${challengeId}/download?client_id=${clientId}`;
+        }
+
+        // Show hint
+        async function showHint(challengeId) {
+            try {
+                const response = await fetch(`/api/challenge/${challengeId}/hint?client_id=${clientId}`);
+                const data = await response.json();
+
+                if (data.hint) {
+                    alert(`Hint: ${data.hint}`);
+                }
+            } catch (error) {
+                console.error('Error getting hint:', error);
+            }
+        }
+
+        // Submit flag
+        async function submitFlag() {
+            if (!currentChallenge) {
+                alert('No challenge selected');
+                return;
+            }
+
+            const flagInput = document.getElementById('flag-input');
+            const flag = flagInput.value.trim();
+
+            if (!flag) {
+                alert('Please enter a flag');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/flag/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        client_id: clientId,
+                        challenge_id: currentChallenge.id,
+                        flag: flag
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    alert(`Correct flag! You earned ${currentChallenge.points} points!`);
+                    flagInput.value = '';
+
+                    // Reload the challenges and current challenge
+                    loadChallenges();
+                    loadChallengeDetails(currentChallenge.id);
+                    loadScoreboard();
+                } else {
+                    alert(`Incorrect flag: ${data.message}`);
+                }
+            } catch (error) {
+                alert(`Error submitting flag: ${error.message}`);
+            }
+        }
+
+        // Load scoreboard
+        async function loadScoreboard() {
+            try {
+                const response = await fetch('/api/scoreboard?client_id=' + clientId);
+                const data = await response.json();
+
+                if (data.scoreboard) {
+                    scoreboardBody.innerHTML = '';
+
+                    data.scoreboard.forEach((entry, index) => {
+                        const row = document.createElement('tr');
+                        if (entry.username === username) {
+                            row.className = 'user-me';
+                        }
+
+                        row.innerHTML = `
+                            <td>${index + 1}</td>
+                            <td>${entry.username}</td>
+                            <td>${entry.score}</td>
+                            <td>${entry.solved}</td>
+                        `;
+
+                        scoreboardBody.appendChild(row);
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading scoreboard:', error);
+            }
+        }
+
+        // Poll for messages
+        async function pollMessages() {
+            if (!clientId) return;
+
+            try {
+                const response = await fetch('/api/poll', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ client_id: clientId })
+                });
+
+                const data = await response.json();
+                if (data.messages && data.messages.length > 0) {
+                    data.messages.forEach(message => {
+                        handleServerMessage(message);
+                    });
+                }
+            } catch (error) {
+                console.error('Polling error:', error);
+            }
+        }
+
+        // Start polling
+        function startPolling() {
+            if (pollInterval) clearInterval(pollInterval);
+            pollInterval = setInterval(pollMessages, 1000);
+        }
+
+        // Handle server messages
+        function handleServerMessage(message) {
+            const { type, data } = message;
+
+            switch (type) {
+                case 'FlagCorrect':
+                    alert(`Correct flag! +${data.points} points!`);
+                    // Refresh challenges and scoreboard
+                    loadChallenges();
+                    loadScoreboard();
+                    if (currentChallenge && currentChallenge.id === data.challenge_id) {
+                        loadChallengeDetails(currentChallenge.id);
+                    }
+                    break;
+
+                case 'FlagIncorrect':
+                    alert(`Incorrect flag: ${data.message}`);
+                    break;
+
+                case 'ScoreUpdate':
+                    // Refresh scoreboard
+                    loadScoreboard();
+                    break;
+            }
+        }
+
+        // Refresh scoreboard button
+        document.getElementById('btn-refresh-scoreboard').addEventListener('click', loadScoreboard);
+
+        // Initialize the connection
+        connectToServer();
+    </script>
+</body>
+</html>

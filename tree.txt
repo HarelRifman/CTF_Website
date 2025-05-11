@@ -1,0 +1,20 @@
+project_root/
+│
+├── app/
+│   ├── __init__.py           # Only this one is truly necessary
+│   ├── config.py
+│   ├── auth.py               # All auth code in one file
+│   ├── challenges.py         # All challenge code in one file
+│   ├── api.py                # All API endpoints in one file
+│   │
+│   └── templates/
+│       ├── auth/
+│       │   ├── signin.html
+│       │   └── signup.html
+│       │
+│       └── main/
+│           └── dashboard.html
+│  
+├── firebase_handler.py
+├── run.py
+└── challenges/

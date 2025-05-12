@@ -3,7 +3,7 @@ import firebase_admin
 import os
 
 # Firebase Setup
-CREDENTIALS_PATH = os.path.join(os.getcwd(), "firebase_handler.py")
+CREDENTIALS_PATH = os.path.join(os.getcwd(), "firebase-credentials.json")
 credentials = firebase_admin.credentials.Certificate(CREDENTIALS_PATH)
 firebase_admin.initialize_app(credentials, {
     'databaseURL': "https://ex2db-5c4eb-default-rtdb.firebaseio.com/"

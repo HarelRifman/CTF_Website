@@ -1,20 +1,26 @@
 project_root/
-│
-├── app/
-│   ├── __init__.py           # Only this one is truly necessary
+├── app
+│   ├── __init__.py
+│   ├── api.py
+│   ├── auth.py
+│   ├── challenges.py
 │   ├── config.py
-│   ├── auth.py               # All auth code in one file
-│   ├── challenges.py         # All challenge code in one file
-│   ├── api.py                # All API endpoints in one file
-│   │
-│   └── templates/
-│       ├── auth/
+│   └── templates
+│       ├── auth
 │       │   ├── signin.html
 │       │   └── signup.html
-│       │
-│       └── main/
+│       └── main
 │           └── dashboard.html
-│  
+├── upload_challenges.py
+├── challenges
+│   ├── buffer_overflow.zip
+│   ├── caesar_cipher.txt
+│   ├── hidden_treasure.png
+│   ├── reverse_me.bin
+│   ├── reverse_me.out
+│   └── web_basics.zip
 ├── firebase_handler.py
-├── run.py
-└── challenges/
+├── remote_access
+│   ├── client.py
+│   └── server.py
+└── run.py

@@ -3,95 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
+    <title>Sign Up - CTF Platform</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f8fb;
-            color: #333;
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             margin: 0;
-            padding: 0;
         }
-        .container {
-            width: 100%;
-            max-width: 450px;
-            margin: 50px auto;
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            text-align: center;
-            color: #0066cc;
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-        label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 10px;
-        }
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            border: 2px solid #ccc;
+        .signup-container {
+            background-color: white;
             border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
-        input[type="text"]:focus, input[type="password"]:focus {
-            border-color: #0066cc;
-            outline: none;
-        }
-        button {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             width: 100%;
-            padding: 12px;
-            background-color: #0066cc;
+            max-width: 400px;
+            padding: 30px;
+        }
+        .signup-container h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #4a6da7;
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
+            border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.3s;
         }
-        button:hover {
-            background-color: #004d99;
+        .btn:hover {
+            background-color: #3e5b8a;
         }
-        .text-center {
+        .error-message {
+            color: red;
             text-align: center;
+            margin-bottom: 15px;
         }
-        .text-center a {
-            color: #0066cc;
-            text-decoration: none;
-            transition: text-decoration 0.3s;
+        .success-message {
+            color: green;
+            text-align: center;
+            margin-bottom: 15px;
         }
-        .text-center a:hover {
-            text-decoration: underline;
+        .signup-link {
+            text-align: center;
+            margin-top: 15px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="signup-container">
         <h2>Sign Up</h2>
-        <form method="POST">
-            {{ form.hidden_tag() }}
-            <div>
-                <label for="username">Username:</label>
-                {{ form.username(size=32) }}
+        <div id="error-container" class="error-message"></div>
+        <div id="success-container" class="success-message"></div>
+        <form id="signup-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required
+                       placeholder="4-20 characters, letters and numbers">
             </div>
-            <div>
-                <label for="password">Password:</label>
-                {{ form.password(size=32) }}
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required
+                       placeholder="At least 8 characters, mix of upper/lower case and numbers">
             </div>
-            <div>
-                <button type="submit">Sign Up</button>
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" id="confirm_password" name="confirm_password" required
+                       placeholder="Repeat your password">
             </div>
+            <button type="submit" class="btn">Sign Up</button>
         </form>
-        <div class="text-center">
-            <p>Already have an account? <a href="{{ url_for('auth.signin') }}">Sign In</a></p>
+        <div class="signup-link">
+            Already have an account? <a href="/signin">Sign In</a>
         </div>
     </div>
+
+    <script>
+        document.getElementById('signup-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const errorContainer = document.getElementById('error-container');
+            const successContainer = document.getElementById('success-container');
+
+            // Clear previous messages
+            errorContainer.textContent = '';
+            successContainer.textContent = '';
+
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    successContainer.textContent = result.message;
+                    // Redirect to signin page
+                    setTimeout(() => {
+                        window.location.href = '/signin';
+                    }, 1500);
+                } else {
+                    errorContainer.textContent = result.message;
+                }
+            } catch (error) {
+                errorContainer.textContent = 'An error occurred. Please try again.';
+                console.error('Signup error:', error);
+            }
+        });
+    </script>
 </body>
 </html>

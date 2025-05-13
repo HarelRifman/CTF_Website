@@ -24,7 +24,6 @@ project_root/
 │   ├── caesar_cipher.txt
 │   ├── hidden_treasure.png
 │   ├── reverse_me.bin
-│   ├── reverse_me.out
 │   └── web_basics.zip
 ├── firebase_handler.py
 ├── remote_access

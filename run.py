@@ -1,6 +1,6 @@
 from firebase_admin import db
 import firebase_admin
-from firebase_handler import CREDENTIALS_PATH
+from firebase_handler.py import CREDENTIALS_PATH
 
 # Firebase Setup
 credentials = firebase_admin.credentials.Certificate(CREDENTIALS_PATH)

@@ -1,9 +1,8 @@
 from firebase_admin import db
 import firebase_admin
-
+from firebasePhandler import CREDENTIALS_PATH
 
 # Firebase Setup
-CREDENTIALS_PATH = "C:\\Users\\harel\\Downloads\\ex2db-5c4eb-firebase-adminsdk-7vd2j-1f640eb3d2.json"
 credentials = firebase_admin.credentials.Certificate(CREDENTIALS_PATH)
 firebase_admin.initialize_app(credentials, {
     'databaseURL': "https://ex2db-5c4eb-default-rtdb.firebaseio.com/"

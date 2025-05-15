@@ -7,28 +7,36 @@ A web-based platform for cybersecurity challenges with remote access capabilitie
 ```
 project_root/
 ├── app
-│   ├── __init__.py
-│   ├── api.py
-│   ├── auth.py
-│   ├── challenges.py
-│   ├── config.py
-│   └── templates
-│       ├── auth
-│       │   ├── signin.html
-│       │   └── signup.html
-│       └── main
-│           └── dashboard.html
-├── upload_challenges.py
+│   ├── __init__.py
+│   ├── api.py
+│   ├── auth.py
+│   ├── challenges.py
+│   ├── config.py
+│   ├── static
+│   │   └── images
+│   │       ├── background.png
+│   │       └── logo.png
+│   └── templates
+│       ├── auth
+│       │   ├── signin.html
+│       │   └── signup.html
+│       └── main
+│           └── dashboard.html
 ├── challenges
-│   ├── buffer_overflow.zip
-│   ├── caesar_cipher.txt
-│   ├── hidden_treasure.png
-│   ├── reverse_me.bin
-│   └── web_basics.zip
+│   ├── buffer_overflow
+│   │   ├── chall
+│   │   ├── chall.c
+│   │   └── flag.txt
+│   ├── buffer_overflow.zip
+│   ├── caesar_cipher.txt
+│   ├── hidden_treasure.png
+│   ├── reverse_me.out
+│   └── try_trace_me
+├── firebase-credentials.json
 ├── firebase_handler.py
 ├── remote_access
-│   ├── client.py
-│   └── server.py
+│   ├── client.py
+│   └── server.py
 └── run.py
 ```
 

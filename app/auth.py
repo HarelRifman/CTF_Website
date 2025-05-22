@@ -37,13 +37,13 @@ def validate_password(password):
 # Custom WTForms Validators
 # ────────────────────────────────────────────────────────────────
 
-def password_strength_check(form, field):
+def password_strength_check(_, field):
     valid, message = validate_password(field.data)
     if not valid:
         raise ValidationError(message)
 
 
-def username_length_check(form, field):
+def username_length_check(_, field):
     if len(field.data) < 4:
         raise ValidationError("Username must be at least 4 characters long")
 
@@ -182,11 +182,15 @@ def signup():
     for field_errors in form.errors.values():
         error_messages.extend(field_errors)
 
+    from flask import flash
+    for error in error_messages:
+        flash(error, 'error')
+    if success_message:
+        flash(success_message, 'success')
+    
     return render_template(
         "auth/signup.html",
-        form=form,
-        error_messages=error_messages,
-        success_message=success_message
+        form=form
     )
 
 

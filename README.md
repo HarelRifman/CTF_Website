@@ -147,7 +147,6 @@ Once connected, you'll have access to:
 - **Buffer Overflow Exploitation**: Practice stack-based buffer overflows
 - **Binary Reverse Engineering**: Analyze and exploit compiled binaries
 - **Network Penetration Testing**: Test network security configurations
-- **Web Application Security**: Find and exploit web vulnerabilities
 - **Cryptography Challenges**: Break various encryption schemes
 
 ## 🎯 Available Challenges
@@ -158,7 +157,6 @@ The platform includes a diverse range of cybersecurity challenges:
 - **🔐 Caesar Cipher Decryption**: Decode messages encrypted with the classic Caesar cipher
 - **🖼️ Hidden Data in Images**: Discover steganography techniques to find hidden information
 - **🔍 Binary Reverse Engineering**: Analyze and reverse engineer compiled binaries
-- **🌐 Web Application Security**: Learn the basics of web application vulnerabilities
 - **📊 Network Penetration Testing**: Test network security configurations
 - **🔢 Cryptography Challenges**: Break various encryption schemes
 

@@ -1,0 +1,5 @@
+flask
+firebase-admin
+flask-wtf
+gunicorn
+pycryptodome

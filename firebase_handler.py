@@ -1,14 +1,19 @@
-from firebase_admin import db
+import os, json
 import firebase_admin
-import os
+from firebase_admin import credentials, db
 
-# Firebase Setup
-CREDENTIALS_PATH = os.path.join(os.getcwd(), "firebase-credentials.json")
-credentials = firebase_admin.credentials.Certificate(CREDENTIALS_PATH)
-firebase_admin.initialize_app(credentials, {
-    'databaseURL': "https://ex2db-5c4eb-default-rtdb.firebaseio.com/"
+cred_env = os.environ.get("FIREBASE_CREDENTIALS_JSON")
+db_url = os.environ.get("FIREBASE_DB_URL")
+
+if cred_env:
+    cred_dict = json.loads(cred_env)
+    cred = credentials.Certificate(cred_dict)
+else:
+    cred = credentials.Certificate("firebase-credentials.json")
+
+firebase_admin.initialize_app(cred, {
+    "databaseURL": db_url or "https://your-project-id.firebaseio.com"
 })
-
 
 # Firebase Handler Class
 class FirebaseHandler:

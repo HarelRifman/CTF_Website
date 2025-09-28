@@ -3,7 +3,7 @@ import hashlib
 import re
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
-from wtforms.validators import DataRequired, EqualTo, ValidationError
+from wtforms.validators import DataRequired, ValidationError
 from firebase_handler import FirebaseHandler
 
 # ────────────────────────────────────────────────────────────────
@@ -61,10 +61,6 @@ class SignUpForm(FlaskForm):
         DataRequired(message="Password is required"),
         password_strength_check
     ])
-    confirm_password = PasswordField('Confirm Password', validators=[
-        DataRequired(message="Password confirmation is required"),
-        EqualTo('password', message="Passwords do not match")
-    ])
 
 
 class SignInForm(FlaskForm):
@@ -88,13 +84,12 @@ def signup():
         data = request.get_json()
         username = data.get('username')
         password = data.get('password')
-        confirm_password = data.get('confirm_password')
 
         # Validate input
-        if not username or not password or not confirm_password:
+        if not username or not password:
             return jsonify({
                 'success': False,
-                'message': 'All fields are required'
+                'message': 'Username and password are required'
             }), 400
 
         # Validate username length
@@ -110,13 +105,6 @@ def signup():
             return jsonify({
                 'success': False,
                 'message': error_message
-            }), 400
-
-        # Check password confirmation
-        if password != confirm_password:
-            return jsonify({
-                'success': False,
-                'message': 'Passwords do not match'
             }), 400
 
         # Check if username already exists

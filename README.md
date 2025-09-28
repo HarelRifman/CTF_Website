@@ -4,7 +4,7 @@ A web-based platform for cybersecurity challenges with remote access capabilitie
 
 ## 🌐 Live Website
 
-**The platform is now live and accessible at: [https://ctf-website-1.onrender.com/](https://ctf-website-1.onrender.com/)**
+**The platform is now live and accessible at: <a href="https://ctf-website-1.onrender.com/" target="_blank">https://ctf-website-1.onrender.com/</a>**
 
 Sign up for an account and start solving cybersecurity challenges immediately!
 
@@ -49,7 +49,7 @@ CTF_Website/
 
 ## 🚀 Quick Start
 
-Visit [https://ctf-website-1.onrender.com/](https://ctf-website-1.onrender.com/) to start solving challenges immediately! No installation required.
+Visit <a href="https://ctf-website-1.onrender.com/" target="_blank">https://ctf-website-1.onrender.com/</a> to start solving challenges immediately! No installation required.
 
 ## 🔧 Remote Access Platform
 

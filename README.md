@@ -2,273 +2,192 @@
 
 A web-based platform for cybersecurity challenges with remote access capabilities
 
-## Project Structure
+## 🌐 Live Website
+
+**The platform is now live and accessible at: [https://ctf-website-1.onrender.com/](https://ctf-website-1.onrender.com/)**
+
+Sign up for an account and start solving cybersecurity challenges immediately!
+
+## 📁 Project Structure
 
 ```
-project_root/
-├── app
-│   ├── __init__.py
-│   ├── api.py
-│   ├── auth.py
-│   ├── challenges.py
-│   ├── config.py
-│   ├── static
-│   │   └── images
-│   │       ├── background.png
-│   │       └── logo.png
-│   └── templates
-│       ├── auth
-│       │   ├── signin.html
-│       │   └── signup.html
-│       └── main
-│           └── dashboard.html
-├── challenges
-│   ├── buffer_overflow
-│   │   ├── chall
-│   │   ├── chall.c
-│   │   └── flag.txt
-│   ├── buffer_overflow.zip
-│   ├── caesar_cipher.txt
-│   ├── hidden_treasure.png
-│   ├── reverse_me.out
-│   └── try_trace_me
-├── firebase-credentials.json
-├── firebase_handler.py
-├── remote_access
-│   ├── client.py
-│   └── server.py
-└── run.py
+CTF_Website/
+├── app/                          # Main Flask application
+│   ├── __init__.py              # Flask app initialization
+│   ├── api.py                   # API endpoints
+│   ├── auth.py                  # Authentication system
+│   ├── challenges.py            # Challenge management
+│   ├── config.py                # Configuration settings
+│   ├── static/images/           # Static assets
+│   │   ├── background.png       # Background image
+│   │   └── logo.png            # CTF logo
+│   └── templates/               # HTML templates
+│       ├── auth/                # Authentication pages
+│       │   ├── signin.html      # Sign in page
+│       │   └── signup.html      # Sign up page
+│       └── main/                # Main application pages
+│           └── dashboard.html   # User dashboard
+├── challenges/                  # Challenge files and resources
+│   ├── buffer_overflow/         # Buffer overflow challenges
+│   │   ├── chall               # Compiled binary
+│   │   └── chall.c             # Source code
+│   ├── buffer_overflow.zip     # Challenge archive
+│   ├── caesar_cipher.txt       # Cryptography challenge
+│   ├── hidden_treasure.png     # Steganography challenge
+│   ├── reverse_me.out          # Reverse engineering binary
+│   └── try_trace_me            # Tracing challenge
+├── remote_access/              # Remote access platform
+│   ├── client.py               # Client application
+│   ├── server.py               # Server application
+│   └── README.md               # Remote access documentation
+├── firebase_handler.py         # Firebase database handler
+├── requirements.txt            # Python dependencies
+├── run.py                     # Application entry point
+├── upload_challenges.py       # Challenge upload utility
+└── README.md                  # This file
 ```
 
-## Setup Instructions
+## 🚀 Quick Start
 
-### 1. Create and Activate Virtual Environment
+Visit [https://ctf-website-1.onrender.com/](https://ctf-website-1.onrender.com/) to start solving challenges immediately! No installation required.
 
-It's recommended to use a virtual environment to manage dependencies. This keeps your project dependencies isolated from your system packages.
+## 🔧 Remote Access Platform
 
-#### On Linux/macOS:
+For advanced cybersecurity challenges that require direct system interaction, we provide a secure remote access platform. This allows participants to connect to dedicated challenge environments and practice real-world penetration testing scenarios.
 
-```bash
-# Navigate to your project directory
-cd path/to/project_root
+### ✨ Features
 
-# Create virtual environment
-python3 -m venv venv
+- **🔐 Encrypted Communication**: All data transmission is secured using AES encryption
+- **🛡️ Isolated Environment**: Each challenge runs in a sandboxed environment
+- **📊 Real-time Monitoring**: Track progress and attempts in real-time
+- **🎯 Challenge-specific Tools**: Pre-installed tools and utilities for each challenge type
+- **🌐 Cross-platform Support**: Works on Windows, macOS, and Linux
 
-# Activate virtual environment
-source venv/bin/activate
-```
+### 🚀 Quick Setup
 
-When activated successfully, your terminal prompt will change to show the virtual environment name in parentheses, like this:
-```
-(venv) username@hostname:~/project_root$
-```
+#### Prerequisites
 
-To deactivate the virtual environment when you're done working:
-```bash
-deactivate
-```
+- Python 3.7 or higher
+- Virtual environment (recommended)
 
-#### On Windows:
+#### Server Setup
 
-```bash
-# Navigate to your project directory
-cd path\to\project_root
+1. **Create and activate a virtual environment:**
 
-# Create virtual environment
-python -m venv venv
+   ```bash
+   # Create virtual environment
+   python3 -m venv venv
 
-# Activate virtual environment
-venv\Scripts\activate
-```
-
-When activated successfully, your command prompt will be prefixed with `(venv)`:
-```
-(venv) C:\path\to\project_root>
-```
-
-To deactivate the virtual environment when you're done working:
-```bash
-deactivate
-```
-
-### 2. Install Web Application Dependencies
-
-Once your virtual environment is activated, install the required packages:
-
-#### On both Linux/macOS and Windows:
-
-```bash
-pip install flask firebase-admin flask-wtf
-```
-
-If you encounter any permission issues:
-- On Linux/macOS: Try using `pip3` instead of `pip`
-- On Windows: Ensure you're running Command Prompt as Administrator if necessary
-
-You can verify the packages were installed correctly by running:
-```bash
-pip list
-```
-
-### 3. Configure Firebase Database
-
-The application uses Firebase as its database. You need to set up a Firebase project and configure it:
-
-1. Create a project at [Firebase Console](https://console.firebase.google.com/):
-   - Click "Add project"
-   - Follow the setup wizard to create your project
-   - Enable Firestore Database when prompted
-
-2. Generate a private key:
-   - Go to Project Settings > Service Accounts
-   - Click "Generate New Private Key"
-   - Save the JSON file securely
-
-3. Place the downloaded JSON file in your project root and name it `firebase-credentials.json`
-
-4. Ensure that the `databaseURL` in the `firebase_handler.py` file is correctly set to the URL of your Firebase database. It should look something like:
-   ```python
-   databaseURL = "https://your-project-id.firebaseio.com"
+   # Activate it
+   source venv/bin/activate  # Linux/macOS
+   # or
+   venv\Scripts\activate     # Windows
    ```
-   
-**Important**: The credentials file contains sensitive information and should not be committed to version control. Make sure to add it to your `.gitignore` file:
 
-```bash
-# Add to .gitignore
-firebase-credentials.json
-```
-### 4. Creating the challenges 
-Run the `upload_challenges.py` in the same folder to upload the challenges information to your data base 
+2. **Install dependencies:**
 
-
-### 5. Running the Web Application
-
-With your virtual environment activated, start the web application:
-
-#### On Linux/macOS:
-```bash
-python3 run.py
-```
-
-#### On Windows:
-```bash
-python run.py
-```
-
-The application will be available at `http://localhost:5000` by default. Open this URL in your web browser to access the platform.
-
-## Remote Access Setup
-
-The project includes a remote access server and client for challenges that require direct system interaction.
-
-### Setting up the Server
-
-1. Make sure your virtual environment is activated (you should see `(venv)` in your terminal)
-
-2. Install the required cryptography library:
    ```bash
    pip install pycryptodome
    ```
 
-3. Start the server:
+3. **Start the server:**
+
    ```bash
-   # Navigate to the remote_access directory
    cd remote_access
-   
-   # Start the server
-   python server.py
+   python3 server.py  # Linux/macOS
+   # or
+   python server.py   # Windows
    ```
-On linux of course use `python3` instead of `python` command
 
-The server will start listening on port 4444 by default. You should see a confirmation message in the terminal.
+   The server will start on port 4444 by default. You'll see a confirmation message when it's ready.
 
-### Setting up the Client
+#### Client Connection
 
-1. Make sure your virtual environment is activated
+1. **Install dependencies (if not already done):**
 
-2. Install the required cryptography library:
    ```bash
    pip install pycryptodome
    ```
 
-3. Connect to the server:
+2. **Connect to the server:**
+
    ```bash
    cd remote_access
-   python client.py server_ip 4444
+   python3 client.py <server_ip> 4444
    ```
-   
-Replace `server_ip` with the actual IP address of your server. For local testing, you can use `127.0.0.1`.
 
-Example:
-```bash
-# For local testing
-python client.py 127.0.0.1 4444
+   **Examples:**
 
-# For remote server
-python client.py 192.168.1.100 4444
-```
+   ```bash
+   # Local testing
+   python3 client.py 127.0.0.1 4444
 
-## Available Challenges
+   # Remote server
+   python3 client.py 192.168.1.100 4444
+   ```
 
-The platform includes various cybersecurity challenges:
+### 🎮 Usage
 
-- **Buffer Overflow Exploitation**: Practice exploiting buffer overflow vulnerabilities
-- **Caesar Cipher Decryption**: Decode messages encrypted with the classic Caesar cipher
-- **Hidden Data in Images**: Discover steganography techniques to find hidden information
-- **Binary Reverse Engineering**: Analyze and reverse engineer compiled binaries
-- **Web Application Security**: Learn the basics of web application vulnerabilities
+Once connected, you'll have access to:
 
-Access these challenges through the web interface after signing in. Each challenge comes with detailed instructions and hints.
+- **Interactive shell** for command execution
+- **File system access** within the challenge environment
+- **Pre-installed tools** like `nmap`, `gdb`, `strings`, etc.
+- **Challenge-specific files** and resources
 
-## Development
+### 🔒 Security Features
 
-To modify the application or add new challenges, refer to the modular structure:
+- **Session-based authentication** prevents unauthorized access
+- **Command logging** for educational purposes
+- **Resource limits** to prevent system abuse
+- **Automatic session timeout** for security
 
-- `app/auth.py`: Authentication functionality
-- `app/challenges.py`: Challenge management
-- `app/api.py`: API endpoints
-- `remote_access/`: Remote challenge server components
+### 📚 Available Challenge Types
+
+- **Buffer Overflow Exploitation**: Practice stack-based buffer overflows
+- **Binary Reverse Engineering**: Analyze and exploit compiled binaries
+- **Network Penetration Testing**: Test network security configurations
+- **Web Application Security**: Find and exploit web vulnerabilities
+- **Cryptography Challenges**: Break various encryption schemes
+
+## 🎯 Available Challenges
+
+The platform includes a diverse range of cybersecurity challenges:
+
+- **🔓 Buffer Overflow Exploitation**: Practice exploiting buffer overflow vulnerabilities in C programs
+- **🔐 Caesar Cipher Decryption**: Decode messages encrypted with the classic Caesar cipher
+- **🖼️ Hidden Data in Images**: Discover steganography techniques to find hidden information
+- **🔍 Binary Reverse Engineering**: Analyze and reverse engineer compiled binaries
+- **🌐 Web Application Security**: Learn the basics of web application vulnerabilities
+- **📊 Network Penetration Testing**: Test network security configurations
+- **🔢 Cryptography Challenges**: Break various encryption schemes
+
+Access these challenges through the web interface after signing in. Each challenge comes with detailed instructions, hints, and progressive difficulty levels.
+
+## 🛠️ Development
+
+This project is open source and welcomes contributions! The codebase is organized for easy maintenance and extension:
+
+### Key Components
+
+- **`app/auth.py`**: User authentication and session management
+- **`app/challenges.py`**: Challenge logic and scoring system
+- **`app/api.py`**: API endpoints
+- **`remote_access/`**: Secure remote challenge environment
+- **`firebase_handler.py`**: Database operations and user data management
+
+### Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
 
 ### Adding New Challenges
 
 To add a new challenge:
 
 1. Create the challenge content in the `challenges/` directory
-2. Update the challenge database in Firebase
+2. Update the challenge database using `upload_challenges.py`
 3. Modify `app/challenges.py` to include the new challenge details
-
-## Troubleshooting
-
-### Virtual Environment Issues
-
-- **Linux/macOS**: If you encounter permission issues when creating the virtual environment:
-  ```bash
-  sudo apt-get install python3-venv  # For Debian/Ubuntu
-  # or
-  sudo dnf install python3-venv  # For Fedora
-  ```
-
-- **Windows**: If `venv` is not recognized:
-  - Ensure Python is added to your PATH during installation
-  - Try using the full path: `C:\Python39\python.exe -m venv venv`
-
-### Firebase Configuration
-
-- Double-check that your Firebase configuration file path is correctly set in `firebase_handler.py`
-- Verify Firebase rules allow read/write access for your application
-
-### Connection Issues
-
-- For remote access connection issues:
-  - Check firewall settings and ensure the server port (4444) is open
-  - Verify that the client and server are on the same network or properly port-forwarded
-  - Try disabling any VPN services temporarily
-
-### Package Installation Problems
-
-- If you see "Command not found" errors, ensure your virtual environment is activated
-- Update pip with `pip install --upgrade pip` before installing packages
-- On Windows, you might need to install the Visual C++ Build Tools for some packages
-
-If you continue to experience issues, please check the project's issue tracker or contact the maintainers.
+4. Test the challenge thoroughly before deployment
